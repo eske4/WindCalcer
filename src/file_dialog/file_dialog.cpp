@@ -1,4 +1,3 @@
-#include <iostream>
 #include "file_dialog.h"
 
 std::string openFileDialog()

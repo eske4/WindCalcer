@@ -1,6 +1,7 @@
 #include <iostream>
 #include "config.hpp"
 #include "file_dialog.h"
+#include "UI.h"
 
 int main()
 {
@@ -10,6 +11,10 @@ int main()
     auto fileloc = openFileDialog();
 
     std::cout << fileloc << "\n";
+
+    draw();
+
+    std::cout << "\n";
 
     return 0;
 }

@@ -7,12 +7,14 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS        OFF)
 
 set(FILE_DIALOG file_dialog)
+set(UI_LIBRARY ui_library)
 set(EXECUTABLE_NAME WindCalcer)
 
 set(CMAKE_MODULE_PATH "${PROJECT_SOURCE_DIR}/cmake/")
 include(AddGitSubmodule)
 
 add_git_submodule(external/file_dialog)
+add_git_submodule(external/nano_gui)
 
 add_subdirectory(configured)
 add_subdirectory(src)
