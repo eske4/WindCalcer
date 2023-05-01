@@ -14,7 +14,6 @@ set(CMAKE_MODULE_PATH "${PROJECT_SOURCE_DIR}/cmake/")
 include(AddGitSubmodule)
 
 add_git_submodule(external/file_dialog)
-add_git_submodule(external/nano_gui)
 
 add_subdirectory(configured)
 add_subdirectory(src)

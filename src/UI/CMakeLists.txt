@@ -10,6 +10,3 @@ add_library(${UI_LIBRARY} STATIC
 target_include_directories(${UI_LIBRARY} 
     PUBLIC ${CMAKE_SOURCE_DIR}/include/UI
     )
-target_link_libraries(${UI_LIBRARY} 
-    PUBLIC nanogui
-)
