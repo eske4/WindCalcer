@@ -1,3 +1,6 @@
 [submodule "external/file_dialog"]
 	path = external/file_dialog
 	url = https://github.com/samhocevar/portable-file-dialogs.git
+[submodule "external/vcpkg"]
+	path = external/vcpkg
+	url = https://github.com/microsoft/vcpkg.git
