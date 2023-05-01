@@ -1,0 +1,14 @@
+{
+    "name": "windcalcer",
+    "version-string": "1.0.0",
+    "dependencies": [
+        {
+            "name": "boost",
+            "version>=": "1.80.0"
+        }
+    ],
+    "overrides": [
+        { "name": "boost", "version": "1.80.0" }
+    ],
+    "builtin-baseline": "197818b248fa8d7bff3276aba5984f25b77a4b5f"
+}

@@ -2,6 +2,7 @@
 #include "config.hpp"
 #include "file_dialog.h"
 #include "UI.h"
+#include "getWindProData.h"
 
 int main()
 {
@@ -15,6 +16,8 @@ int main()
     draw();
 
     std::cout << "\n";
+
+    printDate();
 
     return 0;
 }

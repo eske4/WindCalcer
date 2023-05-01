@@ -8,10 +8,13 @@ set(CMAKE_CXX_EXTENSIONS        OFF)
 
 set(FILE_DIALOG file_dialog)
 set(UI_LIBRARY ui_library)
+set(GET_DATA_LIBRARY get_data_library)
 set(EXECUTABLE_NAME WindCalcer)
 
 set(CMAKE_MODULE_PATH "${PROJECT_SOURCE_DIR}/cmake/")
 include(AddGitSubmodule)
+include(${CMAKE_SOURCE_DIR}/external/vcpkg/scripts/buildsystems/vcpkg.cmake)
+find_package(Boost REQUIRED)
 
 add_git_submodule(external/file_dialog)
 

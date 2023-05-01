@@ -1,2 +1,3 @@
 add_subdirectory(file_dialog)
 add_subdirectory(UI)
+add_subdirectory(data_collector)
