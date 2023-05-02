@@ -2,6 +2,6 @@
 
 #include "portable-file-dialogs.h"
 #include <string>
-#include <iostream>
 
 std::string  openFileDialog();
+std::ifstream isFileOpen(std::string fileLoc);
