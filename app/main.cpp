@@ -3,7 +3,6 @@
 #include "file_dialog.h"
 #include "UI.h"
 #include "WindProData.h"
-using namespace WindProSystem;
 
 int main()
 {
