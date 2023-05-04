@@ -115,7 +115,7 @@ WindProData getData(std::ifstream file)
         std::cout << "\n";  
     }
 
-    return {std::move(ptrWindData), std::move(headers), std::move(ptrInnerSize), headerSize, placeHolder.size()};
+    return {std::move(ptrWindData), std::move(headers), std::move(ptrInnerSize),std::move(headerSize), std::move(placeHolder.size())};
 }
 
 bool is_double(const std::string& str) {
