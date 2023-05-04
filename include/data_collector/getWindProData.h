@@ -26,7 +26,7 @@ struct WindProData
 };
 
 
-WindProData fetchWindproData(std::string fileLoc);
-std::ifstream isFileOpen(std::string& fileLoc);
-std::vector<std::string> getHeaders(std::ifstream &file);
-WindProData getData(std::ifstream file);
+WindProData readWindProDataFromFile(std::string fileLoc);
+std::ifstream openFile(std::string& fileLoc);
+std::vector<std::string> extractHeadersFromFile(std::ifstream &file);
+WindProData extractDataFromFile(std::ifstream file);

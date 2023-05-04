@@ -1,12 +1,13 @@
 #include "getWindProData.h"
 
-WindProData fetchWindproData(std::string fileLoc)
+// Read wind data from a file and return a WindProData object
+WindProData readWindProDataFromFile(std::string fileLoc)
 { 
-    return getData(isFileOpen(fileLoc));
+    return extractDataFromFile(openFile(fileLoc));
 }
 
 // Open a file and return the input file stream
-std::ifstream isFileOpen(std::string& fileLoc)
+std::ifstream openFile(std::string& fileLoc)
 {
     std::ifstream text;
     text.open(fileLoc);
@@ -18,8 +19,8 @@ std::ifstream isFileOpen(std::string& fileLoc)
     return text;
 }
 
-// Read the headers from the file and return them as a unique_ptr to a const string array
-std::vector<std::string> getHeaders(std::ifstream &file)
+// Extract headers from the file and return them as a vector of strings
+std::vector<std::string> extractHeadersFromFile(std::ifstream &file)
 {
     // Read until the "TimeStamp" line to skip the metadata
     std::string line{};
@@ -39,28 +40,30 @@ std::vector<std::string> getHeaders(std::ifstream &file)
     return Headers;
 }
 
-WindProData getData(std::ifstream file)
+// Extract wind data from the file and return a WindProData object
+WindProData extractDataFromFile(std::ifstream file)
 {
-    auto headers = getHeaders(file);
+    auto headers = extractHeadersFromFile(file);
     std::string line;
     std::getline(file, line);
     std::vector<std::vector<WindData>> placeHolder{};
 
+    // Read each line of data from the file and store it in a vector
     while(std::getline(file, line))
     {
         std::vector<WindData> aLineOfData{};
         std::vector<std::string> data;
         boost::split(data, line, boost::is_any_of("\t"));
 
+        // Parse the timestamp from the first element in the line of data
         {
             std::tm timeStamp{};
             std::istringstream ss{ data.at(0) };
             ss >> std::get_time(&timeStamp, "%d-%m-%Y %H:%M");
-            WindData time;
-            time.timestamp = timeStamp;
-            aLineOfData.emplace_back(time);
+            aLineOfData.emplace_back(WindData{.timestamp = std::move(timeStamp)});
         }
     
+        // Parse the wind data from the remaining elements in the line of data
         for (size_t i = 1; i < data.size(); i++) {
             if (!data.at(i).empty()) {
                 double d;
@@ -69,10 +72,12 @@ WindProData getData(std::ifstream file)
                 auto result = std::from_chars(begin, end, d);
                 if (result.ec == std::errc()) {
                     aLineOfData.emplace_back(WindData{.data = d});
+                }
+            }
         }
-    }
-}
         placeHolder.emplace_back(aLineOfData);
     }
+
+    // Create and return a WindProData object containing the wind data and headers
     return WindProData{placeHolder, headers};
 }
