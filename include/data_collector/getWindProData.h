@@ -22,17 +22,13 @@ union WindData
 
 struct WindProData
 {
-    std::unique_ptr<std::unique_ptr<const WindData[]>[]> WindProData;
-    std::unique_ptr<const std::string[]> Headers;
-    std::unique_ptr<size_t[]> innerDataSize;
-    size_t headerSize;
-    size_t outerDataSize;
-
+    std::vector<std::vector<WindData>> WindProData;
+    std::vector<std::string> Headers;
 };
 
 
 WindProData fetchWindproData(std::string fileLoc);
 std::ifstream isFileOpen(std::string& fileLoc);
-std::unique_ptr<const std::string[]> getHeaders(std::ifstream &file, size_t &arrSize);
+std::vector<std::string> getHeaders(std::ifstream &file);
 WindProData getData(std::ifstream file);
 bool is_double(const std::string& str);
