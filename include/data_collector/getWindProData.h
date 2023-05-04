@@ -29,6 +29,6 @@ struct WindProData
 
 WindProData fetchWindproData(std::string fileLoc);
 std::ifstream isFileOpen(std::string& fileLoc);
-std::unique_ptr<const std::string[]> getHeaders(std::ifstream &file, size_t &arrSize);
+std::vector<std::string> getHeaders(std::ifstream &file);
 WindProData getData(std::ifstream file);
 bool is_double(const std::string& str);

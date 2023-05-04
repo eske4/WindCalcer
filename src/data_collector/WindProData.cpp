@@ -9,7 +9,8 @@ namespace WindProSystem {
 
   // Member function implementations
   void WindPro::myFunction1() {
-    // your code here
+    std::cout << data.Headers.at(0) << "\n";
+    std::cout << data.windData.at(0).at(1).data << "\n";
   }
 
   int WindPro::myFunction2() {
