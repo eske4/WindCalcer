@@ -2,8 +2,7 @@
 
 WindProData fetchWindproData(std::string fileLoc)
 {
-    auto windProData = getData(isFileOpen(fileLoc));
-    return windProData;
+    return getData(isFileOpen(fileLoc));
 }
 
 // Open a file and return the input file stream
