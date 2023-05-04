@@ -1,8 +1,9 @@
 #include "getWindProData.h"
 
 WindProData fetchWindproData(std::string fileLoc)
-{ 
-    return getData(isFileOpen(fileLoc));
+{
+    auto windProData = getData(isFileOpen(fileLoc));
+    return windProData;
 }
 
 // Open a file and return the input file stream
@@ -15,11 +16,12 @@ std::ifstream isFileOpen(std::string& fileLoc)
         std::cout << "Error: could not find file";
         std::terminate();
     }
+
     return text;
 }
 
 // Read the headers from the file and return them as a unique_ptr to a const string array
-std::vector<std::string> getHeaders(std::ifstream &file)
+std::unique_ptr<const std::string[]> getHeaders(std::ifstream &file, size_t &arrSize)
 {
     // Read until the "TimeStamp" line to skip the metadata
     std::string line{};
@@ -36,19 +38,29 @@ std::vector<std::string> getHeaders(std::ifstream &file)
     boost::split(Headers, line, boost::is_any_of("\t"));
     Headers.pop_back();
 
-    return Headers;
+    // Convert the vector to a const string array and return it as a unique_ptr
+    auto ptr = std::make_unique<std::string[]>(Headers.size());
+    for(size_t i = 0; i < Headers.size(); i++)
+        ptr[i] = Headers.at(i);
+    
+    // Set the array size and return the unique_ptr
+    arrSize = Headers.size();
+    return ptr;
 }
 
 WindProData getData(std::ifstream file)
 {
-    auto headers = getHeaders(file);
+    size_t headerSize{};
+    auto headers = getHeaders(file, headerSize);
     std::string line;
     std::getline(file, line);
+
     std::vector<std::vector<WindData>> placeHolder{};
 
     while(std::getline(file, line))
     {
         std::vector<WindData> aLineOfData{};
+
         std::vector<std::string> data;
         boost::split(data, line, boost::is_any_of("\t"));
 
@@ -66,6 +78,7 @@ WindProData getData(std::ifstream file)
             if(!data.at(i).empty() && is_double(data.at(i)))
                 aLineOfData.emplace_back(WindData{.data = std::stod(data.at(i))});    
         }
+
         placeHolder.emplace_back(aLineOfData);
     }
 
@@ -102,7 +115,7 @@ WindProData getData(std::ifstream file)
         std::cout << "\n";  
     }
 
-    return {std::move(ptrWindData), std::move(headers), std::move(ptrInnerSize),std::move(headerSize), std::move(placeHolder.size())};
+    return {std::move(ptrWindData), std::move(headers), std::move(ptrInnerSize), std::move(headerSize), std::move(placeHolder.size())};
 }
 
 bool is_double(const std::string& str) {

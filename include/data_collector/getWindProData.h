@@ -12,6 +12,8 @@
 #include <vector>
 #include <memory>
 
+
+
 union WindData
 {
     std::tm timestamp;
@@ -25,10 +27,12 @@ struct WindProData
     std::unique_ptr<size_t[]> innerDataSize;
     size_t headerSize;
     size_t outerDataSize;
+
 };
+
 
 WindProData fetchWindproData(std::string fileLoc);
 std::ifstream isFileOpen(std::string& fileLoc);
-std::vector<std::string> getHeaders(std::ifstream &file);
+std::unique_ptr<const std::string[]> getHeaders(std::ifstream &file, size_t &arrSize);
 WindProData getData(std::ifstream file);
 bool is_double(const std::string& str);
