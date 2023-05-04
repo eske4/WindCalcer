@@ -22,8 +22,33 @@ union WindData
 
 struct WindProData
 {
-    std::vector<std::vector<WindData>> WindProData;
+    std::vector<std::vector<WindData>> windData;
     std::vector<std::string> Headers;
+
+    WindProData(std::vector<std::vector<WindData>> windData, std::vector<std::string> Headers)
+    {
+        this->windData = windData;
+        this->Headers = Headers;
+    }
+
+    WindProData(const WindProData& other)
+    {
+        windData = other.windData;
+        Headers = other.Headers;
+    }
+
+    WindProData& operator=(const WindProData& other)
+    {
+        if (this != &other)
+        {
+            windData = other.windData;
+            Headers = other.Headers;
+        }
+        return *this;
+    };
+
+    ~WindProData() = default;
+    WindProData() = default;
 };
 
 
