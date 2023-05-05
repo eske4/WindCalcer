@@ -7,7 +7,7 @@ WindProData readWindProDataFromFile(std::string fileLoc)
 }
 
 // Open a file and return the input file stream
-std::ifstream openFile(std::string& fileLoc)
+std::unique_ptr<std::ifstream> openFile(std::string& fileLoc)
 {
     std::ifstream text;
     text.open(fileLoc);
@@ -16,24 +16,24 @@ std::ifstream openFile(std::string& fileLoc)
         std::cout << "Error: could not find file";
         std::terminate();
     }
-    return text;
+    return std::make_unique<std::ifstream>(std::move(text));
 }
 
 // Extract headers from the file and return them as a vector of strings
-std::vector<std::string> extractHeadersFromFile(std::ifstream &file)
+std::vector<std::string> extractHeadersFromFile(std::unique_ptr<std::ifstream> &file)
 {
     // Read until the "TimeStamp" line to skip the metadata
     std::string line{};
-    while (file >> line) {
+    while (std::getline(*file, line)) {
         if (line == "TimeStamp") {
-            file.seekg(-9L, std::ios::cur);
+            file->seekg(-9L, std::ios::cur);
             break;
         }
     }
 
     // Read the headers from the file and store them in a vector
     std::vector<std::string> Headers{};
-    std::getline(file, line);
+    std::getline(*file, line);
     boost::split(Headers, line, boost::is_any_of("\t"));
     Headers.pop_back();
 
@@ -41,15 +41,15 @@ std::vector<std::string> extractHeadersFromFile(std::ifstream &file)
 }
 
 // Extract wind data from the file and return a WindProData object
-WindProData extractDataFromFile(std::ifstream file)
+WindProData extractDataFromFile(std::unique_ptr<std::ifstream> file)
 {
     auto headers = extractHeadersFromFile(file);
     std::string line;
-    std::getline(file, line);
+    std::getline(*file, line);
     std::vector<std::vector<WindData>> placeHolder{};
 
     // Read each line of data from the file and store it in a vector
-    while(std::getline(file, line))
+    while(std::getline(*file, line))
     {
         std::vector<WindData> aLineOfData{};
         std::vector<std::string> data;
