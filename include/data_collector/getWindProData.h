@@ -12,6 +12,8 @@
 #include <vector>
 #include <memory>
 #include <charconv>
+#include <chrono>
+#include <stdexcept>
 
 union WindData
 {

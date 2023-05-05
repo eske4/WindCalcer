@@ -10,12 +10,12 @@ std::unique_ptr<WindProData> readWindProDataFromFile(std::string fileLoc)
 std::unique_ptr<std::ifstream> openFile(const std::string& fileLoc)
 {
     std::ifstream text;
-    text.open(fileLoc);
+    text.open(fileLoc, std::fstream::binary);
 
     if (!text.is_open()) {
-        std::cout << "Error: could not find file";
-        std::terminate();
+        throw std::runtime_error("Could not open file");
     }
+
     return std::make_unique<std::ifstream>(std::move(text));
 }
 
@@ -29,6 +29,11 @@ std::vector<std::string> extractHeadersFromFile(std::unique_ptr<std::ifstream> &
             file->seekg(-9L, std::ios::cur);
             break;
         }
+    }
+
+    if(file->eof())
+    {
+        throw std::runtime_error("No time stamp found in file");
     }
 
     // Read the headers from the file and store them in a vector
@@ -64,20 +69,35 @@ std::unique_ptr<WindProData> extractDataFromFile(std::unique_ptr<std::ifstream> 
         }
     
         // Parse the wind data from the remaining elements in the line of data
+        bool isLoopBroken = false;
         for (size_t i = 1; i < data.size(); i++) {
             if (!data.at(i).empty()) {
                 double d;
                 const char* begin = data.at(i).c_str();
                 const char* end = begin + data.at(i).size();
                 auto result = std::from_chars(begin, end, d);
-                if (result.ec == std::errc()) {
+                if (result.ec == std::errc())
+                {
                     aLineOfData.emplace_back(WindData{.data = std::move(d)});
                 }
+                else
+                {
+                    isLoopBroken = true;
+                    break;
+                }    
             }
         }
-        placeHolder.emplace_back(std::move(aLineOfData));
+        if (!isLoopBroken)
+        {
+            placeHolder.emplace_back(std::move(aLineOfData));
+        }
     }
 
     // Create and return a WindProData object containing the wind data and headers
+    if(placeHolder.size() == 0)
+    {
+        throw std::runtime_error("No data found in file");
+    }
+
     return std::make_unique<WindProData>(std::move(placeHolder), std::move(headers));
 }
