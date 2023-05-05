@@ -42,6 +42,11 @@ std::vector<std::string> extractHeadersFromFile(std::unique_ptr<std::ifstream> &
     boost::split(Headers, line, boost::is_any_of("\t"));
     Headers.pop_back();
 
+    if(Headers.size() == 0)
+    {
+        throw std::runtime_error("No headers found in file");
+    }
+
     return Headers;
 }
 
