@@ -4,7 +4,7 @@ namespace WindProSystem {
 
   // Constructor implementation
   WindPro::WindPro(std::string fileLoc) {
-    data = readWindProDataFromFile(fileLoc);
+    data = std::move(*readWindProDataFromFile(fileLoc));
   }
 
   // Member function implementations

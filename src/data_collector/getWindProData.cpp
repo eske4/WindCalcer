@@ -1,7 +1,7 @@
 #include "getWindProData.h"
 
 // Read wind data from a file and return a WindProData object
-WindProData readWindProDataFromFile(std::string fileLoc)
+std::unique_ptr<WindProData> readWindProDataFromFile(std::string fileLoc)
 { 
     return extractDataFromFile(openFile(fileLoc));
 }
@@ -41,7 +41,7 @@ std::vector<std::string> extractHeadersFromFile(std::unique_ptr<std::ifstream> &
 }
 
 // Extract wind data from the file and return a WindProData object
-WindProData extractDataFromFile(std::unique_ptr<std::ifstream> file)
+std::unique_ptr<WindProData> extractDataFromFile(std::unique_ptr<std::ifstream> file)
 {
     auto headers = extractHeadersFromFile(file);
     std::string line;
@@ -79,5 +79,5 @@ WindProData extractDataFromFile(std::unique_ptr<std::ifstream> file)
     }
 
     // Create and return a WindProData object containing the wind data and headers
-    return WindProData{placeHolder, headers};
+    return std::make_unique<WindProData>(placeHolder, headers);
 }
