@@ -7,7 +7,7 @@ WindProData readWindProDataFromFile(std::string fileLoc)
 }
 
 // Open a file and return the input file stream
-std::unique_ptr<std::ifstream> openFile(std::string& fileLoc)
+std::unique_ptr<std::ifstream> openFile(const std::string& fileLoc)
 {
     std::ifstream text;
     text.open(fileLoc);
@@ -24,7 +24,7 @@ std::vector<std::string> extractHeadersFromFile(std::unique_ptr<std::ifstream> &
 {
     // Read until the "TimeStamp" line to skip the metadata
     std::string line{};
-    while (std::getline(*file, line)) {
+    while (*file >> line) {
         if (line == "TimeStamp") {
             file->seekg(-9L, std::ios::cur);
             break;
