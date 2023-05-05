@@ -71,13 +71,13 @@ std::unique_ptr<WindProData> extractDataFromFile(std::unique_ptr<std::ifstream> 
                 const char* end = begin + data.at(i).size();
                 auto result = std::from_chars(begin, end, d);
                 if (result.ec == std::errc()) {
-                    aLineOfData.emplace_back(WindData{.data = d});
+                    aLineOfData.emplace_back(WindData{.data = std::move(d)});
                 }
             }
         }
-        placeHolder.emplace_back(aLineOfData);
+        placeHolder.emplace_back(std::move(aLineOfData));
     }
 
     // Create and return a WindProData object containing the wind data and headers
-    return std::make_unique<WindProData>(placeHolder, headers);
+    return std::make_unique<WindProData>(std::move(placeHolder), std::move(headers));
 }
