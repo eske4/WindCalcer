@@ -1,5 +1,6 @@
 set(DATA_COLLECTOR_SOURCES
     "getWindProData.cpp"
+    "WindProData.cpp"
     )
 
 add_library(${GET_DATA_LIBRARY} STATIC 

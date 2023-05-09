@@ -3,10 +3,11 @@
 std::string openFileDialog()
 {
     // File open
-    auto selection = pfd::open_file("Select a file").result();
-    if(selection.empty())
+    auto fileLoc = pfd::open_file("Select a file").result();
+    if(fileLoc.empty())
     {
         return "";
     }
-    return selection[0];
+    std::cout << fileLoc[0] << "\n";
+    return fileLoc[0];
 }
