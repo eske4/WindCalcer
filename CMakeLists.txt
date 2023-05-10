@@ -14,8 +14,13 @@ set(EXECUTABLE_NAME WindCalcer)
 set(CMAKE_MODULE_PATH "${PROJECT_SOURCE_DIR}/cmake/")
 include(AddGitSubmodule)
 include(${CMAKE_SOURCE_DIR}/external/vcpkg/scripts/buildsystems/vcpkg.cmake)
+
+enable_testing()
+
 find_package(Boost REQUIRED)
-find_package(gperftools REQUIRED)
+find_package(GTest CONFIG REQUIRED)
+
+add_test(AllTestsInMain main)
 
 add_git_submodule(external/file_dialog)
 

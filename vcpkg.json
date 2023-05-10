@@ -3,7 +3,7 @@
     "version-string": "0.1.1",
     "dependencies": [
         "boost",
-        "gperftools"
+        "gtest"
     ],
     "overrides": [
         { "name": "boost", "version": "1.80.0" }
