@@ -17,6 +17,7 @@ include(${CMAKE_SOURCE_DIR}/external/vcpkg/scripts/buildsystems/vcpkg.cmake)
 find_package(Boost REQUIRED)
 
 add_git_submodule(external/file_dialog)
+add_git_submodule(external/gperftools)
 
 add_subdirectory(configured)
 add_subdirectory(src)
