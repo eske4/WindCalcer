@@ -2,10 +2,8 @@
     "name": "windcalcer",
     "version-string": "0.1.1",
     "dependencies": [
-        {
-            "name": "boost",
-            "version>=": "1.80.0"
-        }
+        "boost",
+        "gperftools"
     ],
     "overrides": [
         { "name": "boost", "version": "1.80.0" }

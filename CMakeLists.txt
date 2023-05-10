@@ -15,9 +15,9 @@ set(CMAKE_MODULE_PATH "${PROJECT_SOURCE_DIR}/cmake/")
 include(AddGitSubmodule)
 include(${CMAKE_SOURCE_DIR}/external/vcpkg/scripts/buildsystems/vcpkg.cmake)
 find_package(Boost REQUIRED)
+find_package(gperftools REQUIRED)
 
 add_git_submodule(external/file_dialog)
-add_git_submodule(external/gperftools)
 
 add_subdirectory(configured)
 add_subdirectory(src)
