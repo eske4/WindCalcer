@@ -20,11 +20,10 @@ enable_testing()
 find_package(Boost REQUIRED)
 find_package(GTest CONFIG REQUIRED)
 
-add_test(AllTestsInMain main)
-
 add_git_submodule(external/file_dialog)
 
 add_subdirectory(configured)
 add_subdirectory(src)
 add_subdirectory(include)
 add_subdirectory(app)
+add_subdirectory(tests)
