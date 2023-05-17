@@ -33,6 +33,7 @@ std::vector<std::string> extractHeadersFromFile(std::unique_ptr<std::ifstream> &
 
     if(file->eof())
     {
+        file->close();
         throw std::runtime_error("No time stamp found in file");
     }
 
@@ -44,6 +45,7 @@ std::vector<std::string> extractHeadersFromFile(std::unique_ptr<std::ifstream> &
 
     if(Headers.size() == 0)
     {
+        file->close();
         throw std::runtime_error("No headers found in file");
     }
 
@@ -102,7 +104,10 @@ std::unique_ptr<WindProData> extractDataFromFile(std::unique_ptr<std::ifstream> 
     if(placeHolder.size() == 0)
     {
         throw std::runtime_error("No data found in file");
+        file->close();
     }
+
+    file->close();
 
     return std::make_unique<WindProData>(std::move(placeHolder), std::move(headers));
 }
